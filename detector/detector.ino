@@ -65,8 +65,11 @@ void loop() {
   voltage = rawRead*(5.0/1023.0);
   resistance = resistanceCalc(voltage);
 
+  // Calculates conductivity (S/m)
+  cond = 1/resistance;
+
   // calculates concentration (ppm, which is m/L)
-  cons = 4.6 * resistance * 1000; // g/dm^3 -> mg/L
+  cons = 4.6 * cond * 1000; // g/dm^3 -> mg/L
   
 
   // Prints out the stuff
