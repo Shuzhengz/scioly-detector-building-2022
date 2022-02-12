@@ -25,7 +25,7 @@ float voltage; // Voltage after calculation
 float resistanceCalc(float v){
   // V = 5 R / (R + 10000)
   // R = 10000 V / (5 - v)
-  return (10000 * v)/(5-v);
+  return -(10000 * v)/(5-v);
 }
 
 void updateLCD(float v, float ohmn) {
