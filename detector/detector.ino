@@ -18,28 +18,25 @@ const int heihgt = 5;
 
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
-int cond; // Conductivity value
+int resistance; // Resistance calculated
 int rawRead; // Raw Readings
 float voltage; // Voltage after calculation
 
-int condCalc(int v){
-  
-  
+float resistanceCalc(float v){
+  // V = 5 R / (R + 10000)
+  // R = 10000 V / (5 - v)
+  return (10000 * v)/(5-v);
 }
 
-double consCalc(int cond){
-
-}
-
-void updateLCD(int cond, double cons) {
+void updateLCD(float v, float ohmn) {
  lcd.setCursor(0,0);
- lcd.print("Conductivity: ");
- lcd.print(cond);
+ lcd.print("Voltage: ");
+ lcd.print(v);
+ lcd.print(" V");
 
  lcd.setCursor(0,1);
- lcd.print("Consentration: ");
- lcd.print(cons);
- lcd.print(" ppm");
+ lcd.print("Resistance: ");
+ lcd.print(ohmn);
   
 }
 
@@ -55,5 +52,6 @@ void loop() {
   else {digitalWrite(led, LOW);}
 
   voltage = rawRead*(5.0/1023.0);
-
+  resistance = resistanceCalc(voltage);
+  updateLCD(voltage, resistance);
 }
