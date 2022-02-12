@@ -30,12 +30,12 @@ float resistanceCalc(float v){
 
 void updateLCD(float v, float ohmn) {
  lcd.setCursor(0,0);
- lcd.print("Voltage: ");
+ lcd.print("Vol:");
  lcd.print(v);
  lcd.print(" V");
 
  lcd.setCursor(0,1);
- lcd.print("Resistance: ");
+ lcd.print("Res: ");
  lcd.print(ohmn);
   
 }
@@ -53,5 +53,7 @@ void loop() {
 
   voltage = rawRead*(5.0/1023.0);
   resistance = resistanceCalc(voltage);
+  
   updateLCD(voltage, resistance);
+  delay(1000);
 }
