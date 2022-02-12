@@ -11,6 +11,10 @@ const int d7 = 2;
 
 const int led = 6;
 
+// Change this to the actual specific resistivity
+// based on the concentration during comp
+const float p = 0.60;
+
 // Set up LCD
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
@@ -19,9 +23,12 @@ LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 const int radius = 5;
 const int heihgt = 5;
 
-int resistance; // Resistance calculated
+float resistance; // Resistance calculated
 int rawRead; // Raw Readings
 float voltage; // Voltage after calculation
+double resOffset; // The error we have to offset
+double cond; // Conductivity
+double cons; // Consentration
 
 float resistanceCalc(float v){
   // V = 5 R / (R + 10000)
@@ -30,15 +37,15 @@ float resistanceCalc(float v){
 }
 
 // Updates the LCD
-void updateLCD(float v, float ohmn) {
+void updateLCD(float res, float cons) {
  lcd.setCursor(0,0);
- lcd.print("Vol:");
- lcd.print(v);
- lcd.print(" V");
+ lcd.print("Res:");
+ lcd.print(res);
+ lcd.print(" ohmn");
 
  lcd.setCursor(0,1);
- lcd.print("Res: ");
- lcd.print(ohmn);
+ lcd.print("Cons: ");
+ lcd.print( "ppm");
   
 }
 
@@ -58,8 +65,15 @@ void loop() {
   voltage = rawRead*(5.0/1023.0);
   resistance = resistanceCalc(voltage);
 
+  // Calculates conductivity (S/m)
+  cond = 1/resistance;
+
+  // calculates concentration (ppm, which is m/L)
+  cons = 4.6 * cond * 1000; // g/dm^3 -> mg/L
+  
+
   // Prints out the stuff
-  updateLCD(voltage, resistance);
+  updateLCD(resistance, cons);
 
   // Wait for 1 second so the screen doesn't freak out
   delay(1000);
