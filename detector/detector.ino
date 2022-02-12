@@ -11,12 +11,13 @@ const int d7 = 2;
 
 const int led = 6;
 
+// Set up LCD
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+
 // Dimensions of the probe
 // In mm
 const int radius = 5;
 const int heihgt = 5;
-
-LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 int resistance; // Resistance calculated
 int rawRead; // Raw Readings
@@ -28,6 +29,7 @@ float resistanceCalc(float v){
   return -(10000 * v)/(5-v);
 }
 
+// Updates the LCD
 void updateLCD(float v, float ohmn) {
  lcd.setCursor(0,0);
  lcd.print("Vol:");
@@ -47,13 +49,18 @@ void setup() {
 
 void loop() {
   rawRead = analogRead(A0);
-  
+
+  // Turns on LED if has a reading
   if (rawRead != 0) {digitalWrite(led, HIGH);}
   else {digitalWrite(led, LOW);}
 
+  // Caculate voltage read
   voltage = rawRead*(5.0/1023.0);
   resistance = resistanceCalc(voltage);
-  
+
+  // Prints out the stuff
   updateLCD(voltage, resistance);
+
+  // Wait for 1 second so the screen doesn't freak out
   delay(1000);
 }
