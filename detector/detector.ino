@@ -30,10 +30,16 @@ double resOffset; // The error we have to offset
 double cond; // Conductivity
 double cons; // Consentration
 
+// Calculates Resistance based on delta Voltage
 float resistanceCalc(float v){
   // V = 5 R / (R + 10000)
   // R = 10000 V / (5 - v)
   return -(10000 * v)/(5-v);
+}
+
+// Calculates concentration (ppm, which is m/L)
+float concentrationCalc(float conductivity){
+  return 4.6 * cond * 1000; // g/dm^3 -> mg/L
 }
 
 // Updates the LCD
@@ -49,12 +55,15 @@ void updateLCD(float res, float cons) {
   
 }
 
+// Set up pin mode
 void setup() {
   pinMode(led, OUTPUT);
   
 }
 
+// Loop code
 void loop() {
+  // Read from A0 analog port
   rawRead = analogRead(A0);
 
   // Turns on LED if has a reading
@@ -62,15 +71,14 @@ void loop() {
   else {digitalWrite(led, LOW);}
 
   // Caculate voltage read
-  voltage = rawRead*(5.0/1023.0);
+  voltage = rawRead*(5.0/1023.0); // Converts from raw into actual
   resistance = resistanceCalc(voltage);
 
   // Calculates conductivity (S/m)
   cond = 1/resistance;
 
   // calculates concentration (ppm, which is m/L)
-  cons = 4.6 * cond * 1000; // g/dm^3 -> mg/L
-  
+  cons = concentrationCalc(cond);
 
   // Prints out the stuff
   updateLCD(resistance, cons);
