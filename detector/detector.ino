@@ -83,6 +83,6 @@ void loop() {
   // Prints out the stuff
   updateLCD(resistance, cons);
 
-  // Wait for 1 second so the screen doesn't freak out
-  delay(1000);
+  // Wait for 0.5 second to refresh so the screen doesn't freak out
+  delay(500);
 }
