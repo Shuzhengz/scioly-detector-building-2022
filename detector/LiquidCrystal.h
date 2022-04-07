@@ -1,4 +1,5 @@
-// arduino-libraries - LiquidCrystal 
+// arduino-libraries - LiquidCrystal
+// The header file to run the LCD display
 
 #ifndef LiquidCrystal_h
 #define LiquidCrystal_h
