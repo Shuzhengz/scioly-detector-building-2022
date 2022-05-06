@@ -3,6 +3,9 @@ Detector Building Code for Science Olympiad 2022 [detector building](https://sci
 
 Code for LCD and conductivity probe to calculate salinity
 
+Archieved since the competition season is over
+
+
 ## I/O
 
 Input: Analog voltage readout from probe - 1000 Ohmn
